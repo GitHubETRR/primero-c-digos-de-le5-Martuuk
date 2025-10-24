@@ -4,31 +4,51 @@
 #define TAM 50
 #define INFERIOR 10
 #define SUPERIOR 20
-int repeticion_vector (void);
+
+int Random (int inf, int sup);
+void VectorRandom (int vector [], int tam, int inf, int sup);
+int RepeticionMayor (int vector[], int tam);
+int DetectorMayor (int vector[], int tam);
+
 int main() {
-	repeticion_vector();
+	int vector[TAM];
+	srand(time(NULL));
+	VectorRandom(vector, TAM, INFERIOR, SUPERIOR);
+	int repeticion = RepeticionMayor(vector, TAM);
+	printf ("el mayor se repite %d veces \n", repeticion);
+	for (int i = 0; i < TAM; i++) {
+		printf ("%d ",vector[i]);
+	}
 	return 0;
 }
 
-int repeticion_vector (void) {
-	int mayor=0, repeticion=0;
-	int vector[TAM];
-	srand(time(NULL));
-	for (int i = 0; i < TAM; i++) {
-		vector[i] = INFERIOR + rand() % (SUPERIOR-INFERIOR+1);
+
+int Random (int inf, int sup) {
+	return (inf + rand() % (sup-inf+1));
+}
+
+void VectorRandom (int vector [], int tam, int inf, int sup) {
+	for (int i = 0; i < tam; i++) {
+		vector[i] = Random(inf, sup);
 	}
-	for (int i = 0; i < TAM; i++) {
+}
+
+int DetectorMayor (int vector[], int tam) {
+	int mayor=0;
+	for (int i = 0; i < tam; i++) {
 		if (vector[i]>mayor) {
 			mayor=vector[i];
 		}
 	}
+	return mayor;
+}
+
+int RepeticionMayor (int vector[], int tam) {
+	int repeticion=0;
+	int mayor= DetectorMayor(vector, tam);
 	for (int i = 0; i < TAM; i++) {
 		if (vector[i]==mayor)
 			repeticion++;
 	}
-	for (int i = 0; i < TAM; i++) {
-		printf ("%d ",(vector[i]));
-	}
-	printf ("\n %d",repeticion);
-
+	return repeticion;
 }
